@@ -285,7 +285,19 @@ Log the EV every time regardless — it's the data that decides whether EV-scali
 
 ## Step 9: Log the Bet
 
-**Logging is done manually by the user, directly into `bets.org`.** Do not attempt to write, edit, or auto-populate the tracker — the skill's job is only to hand the user clean values to type in.
+**The skill's job is only to hand the user clean, paste-ready values** — it does not decide the result or auto-run anything. The user chooses how to enter them:
+
+- **Manually**, directly into the `bets.org` table (the default), or
+- **Via `rake`**, which drives the org table through `emacsclient`:
+
+  ```
+  rake bets:upsert ROW=<n> DAG=DD-MM-YY KAMP="Team A - Team B" TYPE="U. 2.5" \
+       EV=<ev> RESULTAT=<score> ODDS=<odds> INDSATS=<stake> VUNDET=<returned>
+  ```
+
+  Pass only the input columns; `#`, `Saldo`, and `Bankroll` are recomputed by the table's `#+TBLFM`. Partial updates work — e.g. to fill a result after the match: `rake bets:upsert ROW=<n> RESULTAT=1-2 VUNDET=0`. See `Rakefile` and `JuniSystemet/bets-table.el`.
+
+Either way, the skill still only produces the values; it never chooses the result or the stake for the user.
 
 The `bets.org` table has these columns:
 
@@ -323,7 +335,7 @@ Added: approved sportsbooks list, approved supplement leagues + Allsvenskan pend
 
 Later addition (after 39-bet review): **Knife-Edge Rule for Under 2.5 / Over 2.5** in Step 4. Added after analysis showed Under 2.5 running −20% ROI driven by knife-edge selection — 10 of the first 14 Unders landed on exactly 2 or 3 goals, with the model assessing ~57% where the true number was ~50%. Rule caps Under assessments near market-implied unless the 0–1 goal outcome is genuinely likely.
 
-**Step 9 logging changed to manual.** Bets are now logged by the user directly into `bets.org` (org-mode table with an auto-computing `#+TBLFM`), replacing the old `dagens-spil.jsx` / `initialBets` tracker. The skill no longer writes the tracker — it only hands the user paste-ready values; `#`, `Saldo`, and `Bankroll` are auto-computed by the table formula.
+**Step 9 logging moved off the old tracker.** Bets are logged into `bets.org` (org-mode table with an auto-computing `#+TBLFM`), replacing the old `dagens-spil.jsx` / `initialBets` tracker. The skill only hands the user paste-ready values; `#`, `Saldo`, and `Bankroll` are auto-computed by the table formula. Entry can be done manually or via `rake bets:upsert` (driving the table through `emacsclient`; see `Rakefile` / `JuniSystemet/bets-table.el`) — either way the skill never chooses the result or stake.
 
 **2026-07-20: Allsvenskan approved** by the user, moving it from "pending formal approval" into the approved supplement-league list.
 
