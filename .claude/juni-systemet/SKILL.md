@@ -12,10 +12,41 @@ Find the single best value bet of the day targeting odds around 2.00, using a st
 
 - 2026 FIFA World Cup (all stages)
 - Approved supplement leagues: **Norwegian Eliteserien, League of Ireland, Superettan, Allsvenskan, Besta deild karla (Iceland)**
+- **UEFA Champions League** — approved by the user on 2026-07-21, with the seasonal caveat below.
+- **UEFA Europa League** — approved by the user on 2026-07-22. The same seasonal caveat as the UCL applies (July–August qualifying rounds carry a strong prior toward elimination; league phase onward is full scope).
+- **MLS** — approved by the user on 2026-07-22. In-season, competitive form and real H2H available, good liquidity on approved books. See the post-tournament-break caveat below.
+- **Brasileirão Série A (Betano)** — approved by the user on 2026-07-22. Deep H2H, good liquidity. Kick-offs are in the South American window (22:00–02:00 CET), so they usually sit at the far end of the 24-hour pick window. See the post-tournament-break caveat below.
+
+### Post-tournament-break caveat (MLS, Brasileirão)
+
+**The first one or two matchdays back from a major-tournament break are a degraded data environment.** Both leagues paused for the 2026 World Cup and resumed within days of the final; on 2026-07-22 the most recent competitive form for every Brazilian and MLS side was ~7 weeks old, and returning internationals were being rested, rotated, or reintegrated.
+
+This is the same failure mode as the UCL qualifying caveat, from the other direction: the form data exists and looks real, but it describes a different team than the one taking the field.
+
+- The **season table** stays valid — it aggregates enough matches to survive the gap, and it is what the attack/defence rate model should run on.
+- **"Last 6 results" lists are not usable as form** across the break, and aggregator form lists will silently mix in break friendlies. Flag and exclude them per the Step 3 Outlier Rule.
+- **Squad news outranks the model** on these matchdays. Absence lists were the single largest price driver on 2026-07-22 — Palmeiras' entire front line out, São Paulo missing five, Internacional missing eight. Check team news *before* trusting any modelled probability.
+- **Big clubs are hit hardest** — they supply the most internationals. Backing a short-priced favourite in the first round back is the least attractive bet on the card; the market discount on such a favourite is usually informed, not an error.
+
+Like the UCL caveat this is a **prior, not a blanket exclusion**. A fixture between two squads with no tournament call-ups is a legitimate candidate on matchday one.
 - Allsvenskan approved by the user on 2026-07-20 (was previously pending).
 - Besta deild karla (Icelandic top flight) approved by the user on 2026-07-20. Smaller league — market liquidity is thinner, so the Step 7 reaffirmation on an approved book matters more, and "not offered on any approved book" is a live reason to skip a given match.
 
-Competition-type exclusions (e.g. "UCL/UECL qualifying rounds") are **not** a blanket rule. Exclusion must be justified match-by-match on data depth, market liquidity, and H2H history — never assumed without actually searching first.
+### UCL seasonal caveat — qualifying rounds vs. league phase
+
+**League phase onward (September → final): full scope, no caveat.** Clubs have competitive form, most ties have H2H history, and the markets are the most liquid in football. This is the strongest data environment the system has access to.
+
+**July–August qualifying rounds: expect to eliminate, but verify before doing so.** Scanning the 2026/27 Q2 first legs on 2026-07-21 established the pattern empirically — of the four ties with the best data depth and liquidity (Vikingur Reykjavík–H. Beer Sheva, Aarhus–Lech Poznań, Sturm Graz–Hearts, Fenerbahçe–Górnik Zabrze):
+
+- **All four were first-ever meetings** — zero H2H, which is a Filter 1 hard elimination on its own.
+- **"Form" was preseason friendlies against mismatched opposition.** Sturm Graz's last five: 2-6 vs LNZ Cherkasy, 5-1 vs Sanfrecce Hiroshima, 4-1 vs amateur Kalsdorf. Aarhus's last competitive league match was over two months old. This is exactly the outlier data the Step 3 Outlier Rule says to exclude from probability assessment — and once excluded, nothing is left to assess.
+- The remaining ties on that card were **worse** on both data depth and liquidity, several being heavy mismatches (Mjällby–Lincoln Red Imps, Larne–Crvena zvezda).
+
+The structural cause: in July the Danish, Polish, Austrian, Scottish, Swedish and Icelandic seasons are starting, on break, or in preseason, and the qualifying draw pairs clubs that have no shared history.
+
+This is a **strong prior, not a blanket exclusion.** Qualifying ties still get scanned and still get checked individually — a tie between two mid-season clubs with real H2H is a legitimate candidate. What the caveat forbids is assessing a probability off preseason friendly scorelines.
+
+Competition-type exclusions are **not** a blanket rule. Exclusion must be justified match-by-match on data depth, market liquidity, and H2H history — never assumed without actually searching first.
 
 -----
 
@@ -62,6 +93,8 @@ When two picks are equally strong, prefer the later kick-off.
 ### What to scan
 
 - World Cup 2026 fixtures (all stages)
+- Champions League and Europa League (see the seasonal caveat in Scope above before researching qualifying-round ties)
+- MLS, Brasileirão Série A
 - Approved supplement leagues (see Scope above)
 
 **Search queries (fixture lists only — not tipster sites):**
@@ -116,6 +149,14 @@ Discard if:
 - ✗ Insufficient primary source data to research it properly
 - ✗ **Sources contradict each other on basic facts** (H2H records, points totals, etc.) — this is a data quality failure, not something to resolve by averaging. Skip.
 
+**This rule applies to disagreement between sources of comparable standing — not to a primary source disagreeing with an unreliable one.** Before invoking it, check three things:
+
+- **Is one source simply stale?** Compare the deltas. If two records differ by exactly N wins and N games, that is a snapshot taken N rounds ago, not a contradiction. Use the current one.
+- **Is the disagreeing source even allowed here?** A tipster aggregator is banned as a primary source, so it cannot create a contradiction with an authoritative table. Discard it and proceed.
+- **Is it actually a known quirk?** FotMob and similar list *all* fixtures including friendlies, so a "last 5" spanning a break will mix them in. The Step 3 Outlier Rule says filter those out — that is not a data quality failure.
+
+On 2026-07-22 both Eliteserien matches were wrongly eliminated under this rule. ESPN's table and an odds aggregator differed on Lillestrøm and Viking by exactly two games each — a stale snapshot — and the aggregator's prose claim ("third, two points behind") was wrong against its own numbers. One authoritative source and one banned one is not a contradiction. The error killed the only competition on that card with fresh competitive data and no tournament-break staleness.
+
 **Survivors proceed to deep research in ranked order** — highest angle first.
 
 ### Anti-Bias Rule
@@ -128,7 +169,16 @@ Discard if:
 
 ### Skip Day Rule
 
-The **only legitimate skip day** is when no match survives Filter 2. If any match reaches deep research, the day produces a pick — best available, even if EV is only marginal.
+A skip day is legitimate in exactly two cases:
+
+1. **No match survives Filter 2.**
+2. **Every Filter 2 survivor then fails Step 3** — because its evidence block cannot be filled from fetched primary sources, or because the arguments, once written, don't support the bet the model liked.
+
+Otherwise the day produces a pick — best available, even if EV is only marginal. Reaching deep research is **not** by itself a commitment to bet; Step 3 and Step 6 are allowed to eliminate a match, and if they eliminate all of them the day is a skip.
+
+**Log the reason in the skip row's `Type`**, distinguishing the two cases — e.g. `SKIP - ingen kant efter research` vs `SKIP - team news ej tilgaengelig`. The distinction matters: repeated skips of type 1 mean the card is thin, while repeated skips for unavailable primary sources mean a **research-access problem** that needs fixing rather than a run of quiet days. Track which is accumulating.
+
+**This rule was rewritten on 2026-07-22**, when it contradicted Step 3 for the first time. Four Brazilian matches reached deep research, and all four had an unfillable TEAM NEWS block. The old wording ("if any match reaches deep research, the day produces a pick") forced a bet off evidence that didn't exist — which is the exact mechanism that produced fake EV over the first 39 bets. Step 3 wins that conflict.
 
 -----
 
@@ -150,6 +200,28 @@ Full evidence block from **primary sources only**.
 - Tipster aggregator sites: MightyTips, FootballWhispers, PredictZ, GoalGoalTips, SportsGambler, RatingBet, Footballsuper.tips, and similar
 - Any site whose primary output is "our prediction is X"
 - These may be used only at the END as a raw-odds cross-check — never as the basis for a probability estimate. Bookmakers already price in whatever these sites say, so consensus built from them has no edge.
+
+### Team news must come from a page you actually opened
+
+**A search engine's synthesized answer is not a source.** The summary text a search returns is a paraphrase across whatever it found — including the banned tipster layer — and it silently merges facts from different fixtures. Team news is only usable if it comes from a page that was **fetched and read**, with the outlet and article date known.
+
+This rule exists because of 2026-07-22. A search summary reported that São Paulo were missing Wendell and "Luciano Neves" to suspension for their round 19 match. Fetching the actual source showed Gazeta Esportiva, 23 May 2026: Luciano and Wendell were booked against Botafogo in round 17 while on disciplinary probation, and served that suspension in **round 18, against Remo**. Both were available for the match the pick was built on. The summary had grafted a round-18 absence onto a round-19 preview and mangled the player's name. That absence list was the second key argument of the day's pick.
+
+**Stop signals — treat any of these as the news being unverified:**
+- A named player who does not appear in that club's squad (on 2026-07-22 the same summary listed "Cauly," a Bahia player, among São Paulo's absentees).
+- A name that doesn't resolve cleanly to one player ("Luciano Neves" for Luciano).
+- A stated reason that doesn't match a checkable event — a suspension with no bookable offence you can point to in a specific prior fixture.
+- Detail that contradicts something already established about the fixture (the same day, a summary placed a player as not travelling to a stadium the match had already been moved away from).
+
+**If TEAM NEWS cannot be filled from a fetched primary page, the match is eliminated** — it does not proceed on partial evidence. Club sites frequently carry only ticketing information, and Brazilian outlets in particular return 403 to fetches; when that happens the honest outcome is elimination, not a pick with a guessed injury list.
+
+**Absence lists are the highest-leverage input on the card and the easiest to get wrong.** They move prices more than form does, which is exactly why an unverified one manufactures fake edge so efficiently.
+
+### When the model disagrees with the market, suspect yourself first
+
+A season-aggregate model that says a side is underpriced by 3–6 points is usually detecting **information the market has and you don't** — typically team news — not a market error. Before treating such a gap as edge, name the specific thing you know that the market has failed to price. If you can't name it, the gap is not edge.
+
+On 2026-07-22 every apparent edge on the Brazilian card had this shape, and the one that could be checked resolved against the model: Palmeiras drifting to 2.00 away at 7th was the market pricing four missing attackers, not a mistake.
 
 ### Mandatory Evidence Block
 
@@ -232,14 +304,22 @@ Calculate EV for all researched candidates. Select the highest-EV pick. No skip 
 
 ## Step 6: Deliver the Pick
 
+### Write the arguments BEFORE quoting the EV
+
+**Draft KEY ARGUMENTS and MAIN RISK first, then state the assessed probability and EV.** Not the other way round. The arguments are not write-up decoration for a decision already made — they are the check that catches a bet the model likes and the football doesn't.
+
+Once drafted, ask honestly: **do these three arguments, against that risk, support the probability the model produced?** If they don't, the assessed probability moves to where the arguments put it, and the EV is recalculated from the moved figure. **The arguments are allowed to kill the pick**, in which case go to the next survivor or skip the day (see the Skip Day Rule).
+
+If a bet cannot be argued for in three sentences without leaning on the model output itself, there is no pick.
+
+This was added on 2026-07-22 after a pick was delivered with the model table filled in and the KEY ARGUMENTS block simply omitted. When the arguments were written out afterwards, on request, they immediately surfaced what the season-aggregate model was blind to — two wins in the last ten H2H meetings and a clearly worse recent competitive run — which moved the assessment from 34.1% to ~32% against a break-even of 32.3%. The claimed +5.7% EV was actually about −1%. The block had been treated as paperwork; it was the thing that would have caught the bet.
+
 ```
 MATCH: [Team A vs Team B]
 COMPETITION: [League / Tournament]
 MARKET: [chosen market]
 MARKET PREFERRED OVER: [rejected market] because [reason]
 TARGET ODDS: ~2.00
-ASSESSED TRUE PROB: [X]%
-EV AT TARGET ODDS: +[X]%
 ⏰ Kick-off: [time CET] — place before [time]
 
 KEY ARGUMENTS:
@@ -248,7 +328,12 @@ KEY ARGUMENTS:
 3. [Market movement argument]
 
 MAIN RISK: [One honest counter-argument]
+
+ASSESSED TRUE PROB: [X]%   ← after weighing the arguments above against the risk
+EV AT TARGET ODDS: +[X]%
 ```
+
+The probability and EV lines sit at the bottom deliberately. They are the **conclusion** of the arguments, not the premise.
 
 -----
 
@@ -339,6 +424,19 @@ Later addition (after 39-bet review): **Knife-Edge Rule for Under 2.5 / Over 2.5
 
 **2026-07-20: Allsvenskan approved** by the user, moving it from "pending formal approval" into the approved supplement-league list.
 
-**2026-07-20: Besta deild karla (Iceland) approved** by the user and added to the supplement leagues, with a thin-liquidity caveat. Scope now: World Cup 2026 + Eliteserien, League of Ireland, Superettan, Allsvenskan, Besta deild karla.
+**2026-07-20: Besta deild karla (Iceland) approved** by the user and added to the supplement leagues, with a thin-liquidity caveat.
+
+**2026-07-21: UEFA Champions League approved** by the user, with a seasonal caveat written into the Scope section. League phase onward is full scope. July–August qualifying rounds carry a strong prior toward elimination, grounded in an actual scan of the 2026/27 Q2 first legs that day: the four best-data ties on an eleven-match card were all first-ever meetings with no H2H, and their only recent form was preseason friendlies against mismatched opposition. The caveat is a prior, not a blanket exclusion — qualifying ties are still scanned and checked individually. Scope now: World Cup 2026 + Champions League + Eliteserien, League of Ireland, Superettan, Allsvenskan, Besta deild karla.
+
+**2026-07-22: MLS, Brasileirão Série A and UEFA Europa League approved** by the user. Europa League inherits the UCL seasonal caveat (July–August qualifying = strong prior toward elimination, still scanned individually). MLS and Brasileirão are mid-season with real competitive form and deep H2H, so they carry no caveat — Brasileirão kick-offs land in the 22:00–02:00 CET window. Scope now: World Cup 2026 + Champions League + Europa League + MLS + Brasileirão Série A + Eliteserien, League of Ireland, Superettan, Allsvenskan, Besta deild karla.
+
+**2026-07-22: post-tournament-break caveat added** to Scope, from the first run over the new leagues. Both MLS and the Brasileirão resumed days after the World Cup final, so the whole 15-match MLS card was eliminated on ~7-week-stale form plus wholesale rotation of returning internationals, and the four Brazilian survivors had to be priced off the season table with squad news overriding the model. Codifies: season table stays valid, "last 6" lists do not, absence lists outrank the model, short-priced favourites are the worst bet on matchday one. Same run also confirmed the existing Filter 2 data-quality rule earns its keep — both Eliteserien matches were eliminated because sources disagreed on table position, points, games played and recent form, with break friendlies mixed into aggregator form lists.
+
+**2026-07-22 (second revision, after the day's run went wrong): four process rules added.** The day produced no bet, and the post-mortem produced these:
+
+1. **Team news must come from a fetched primary page** (Step 3) — never a search engine's synthesized summary. A summary reported São Paulo missing Wendell and "Luciano Neves" to suspension; the real source was a 23 May article about a round-18 suspension against Remo, and both players were available for the round-19 match the pick rested on. Includes stop signals (a name not in the squad, an unresolvable name, an uncheckable reason) and makes an unfillable TEAM NEWS block an elimination. Paired with a rule that a 3–6 point model-vs-market gap should be read as information the market has and you don't, unless you can name the specific thing it failed to price.
+2. **Skip Day Rule rewritten** (Step 2) — a skip is now also legitimate when every Filter 2 survivor fails Step 3. The old wording forced a pick once anything reached deep research, which on this card meant betting off four unfillable evidence blocks. Skip reasons are logged by type so that unavailable-source skips surface as a research-access problem rather than a run of quiet days.
+3. **Arguments are written before the EV is quoted** (Step 6), and are allowed to kill the pick. Delivered a Lillestrøm pick at a claimed +5.7% with the KEY ARGUMENTS block omitted; writing it out afterwards surfaced a 2-from-10 H2H record and a worse recent run, moving the assessment to ~32% against a 32.3% break-even — the real EV was about −1%. Template reordered so probability and EV sit below the arguments as their conclusion.
+4. **Filter 2 data-quality rule scoped** — it covers disagreement between sources of *comparable standing*, not a primary source disagreeing with a banned one. Both Eliteserien matches were wrongly eliminated on what turned out to be a two-round-stale aggregator snapshot, discarding the only fresh-data competition on the card. Adds the stale-delta check, the banned-source check, and the friendlies-in-form-lists quirk.
 
 Also (same 39-bet review): **Step 8 staking ladder resolved to a flat 4% of bankroll, NOT EV-scaled** (band pinned to a single 4% figure to remove per-bet discretion; hard cap 5%). A proposed EV-scaled ladder (3%→10% of bank) was simulated against the 39-bet history and underperformed flat staking (+24.9 vs +40.6) with a larger drawdown, because claimed edge was anti-correlated with results — high EV columns lost. Hard cap lowered from "15 kr / 3% of 500" to "5% of current bankroll." Revisit trigger added: reconsider EV-scaling only at ~60 bets, and only if high-EV columns are profitable by then; if so, use a compressed 3%→5% ladder, never the aggressive 3%→10% version.
