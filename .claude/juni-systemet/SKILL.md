@@ -16,6 +16,10 @@ Find the single best value bet of the day targeting odds around 2.00, using a st
 - **UEFA Europa League** — approved by the user on 2026-07-22. The same seasonal caveat as the UCL applies (July–August qualifying rounds carry a strong prior toward elimination; league phase onward is full scope).
 - **MLS** — approved by the user on 2026-07-22. In-season, competitive form and real H2H available, good liquidity on approved books. See the post-tournament-break caveat below.
 - **Brasileirão Série A (Betano)** — approved by the user on 2026-07-22. Deep H2H, good liquidity. Kick-offs are in the South American window (22:00–02:00 CET), so they usually sit at the far end of the 24-hour pick window. See the post-tournament-break caveat below.
+- **Danish Superliga + Danish 1. division** — approved by the user on 2026-07-24. Deep H2H and good liquidity on approved books, but the 2026/27 season opens in late July, so opening matchdays are form-light. See the opening-round / early-tournament caveat below.
+- **Polish Ekstraklasa** — approved by the user on 2026-07-24. Deep H2H; the 2026/27 season also opens in late July, so the same opening-round caveat applies. Newly promoted sides (a club's first top-flight game) can be effective first-ever meetings — treat those as a Filter 1 concern.
+- **Argentina Liga Profesional** — approved by the user on 2026-07-24. Deep H2H, good liquidity. Kick-offs are in the South American window (22:00–02:30 CET), at the far end of the pick window. The Apertura/Clausura split means a Fecha 1 has no current-tournament form; in 2026 the post-WC timing compounds it. Mitigant: most Argentine internationals play in Europe, so domestic squads are less gutted by call-ups than Brazil's were. See the opening-round caveat below.
+- **Mexico Liga MX** — approved by the user on 2026-07-24. Deep H2H, good liquidity. Apertura/Clausura split, so early jornadas carry little current-tournament form. Kick-offs are in the North American window (02:00–06:00 CET), the far end of the pick window. Watch for own-book (e.g. Caliente) soft/promotional lines — confirm the price on an approved book. See the opening-round caveat below.
 
 ### Post-tournament-break caveat (MLS, Brasileirão)
 
@@ -47,6 +51,16 @@ The structural cause: in July the Danish, Polish, Austrian, Scottish, Swedish an
 This is a **strong prior, not a blanket exclusion.** Qualifying ties still get scanned and still get checked individually — a tie between two mid-season clubs with real H2H is a legitimate candidate. What the caveat forbids is assessing a probability off preseason friendly scorelines.
 
 Competition-type exclusions are **not** a blanket rule. Exclusion must be justified match-by-match on data depth, market liquidity, and H2H history — never assumed without actually searching first.
+
+### Opening-round / early-tournament caveat (Denmark, Poland, Argentina, Mexico)
+
+**Season openers and the first jornada/fecha of a new tournament are a form-light environment.** The 2026/27 Danish and Polish seasons open in late July; the Argentine Clausura and Mexican Apertura run on an Apertura/Clausura split, so their opening rounds carry no current-tournament form. In 2026 all four also restart close to the World Cup break, compounding the staleness.
+
+- **H2H stays usable; "current-season form" does not.** On matchday one there is no league table to run the attack/defence-rate model on. Lean on H2H, the *previous* tournament's table as a quality baseline, and any cup form played during the gap — but never assess a probability off preseason friendlies.
+- **This is a strong prior, not a blanket exclusion.** A fixture with deep H2H and a clear quality gap is still a legitimate candidate; what the caveat forbids is manufacturing an edge from form that doesn't exist yet.
+- **Opening-day favourites are the worst bets** — same as the post-tournament-break caveat. Undercooked sides and cautious, cagey openers make short-priced favourites poor value and draws more likely; a low-total angle off deep H2H is usually more robust than backing a favourite.
+- **Newly promoted sides** can create effective first-ever meetings (a Filter 1 concern) or wildly uncertain pricing — treat with extra caution.
+- **Squad news still outranks the model** — the summer/winter transfer window reshapes squads, so verify team news from a fetched primary page per Step 3.
 
 -----
 
@@ -94,7 +108,8 @@ When two picks are equally strong, prefer the later kick-off.
 
 - World Cup 2026 fixtures (all stages)
 - Champions League and Europa League (see the seasonal caveat in Scope above before researching qualifying-round ties)
-- MLS, Brasileirão Série A
+- MLS, Brasileirão Série A, Argentina Liga Profesional, Mexico Liga MX
+- Danish Superliga + 1. division, Polish Ekstraklasa (see the opening-round caveat in Scope above)
 - Approved supplement leagues (see Scope above)
 
 **Search queries (fixture lists only — not tipster sites):**
@@ -440,3 +455,5 @@ Later addition (after 39-bet review): **Knife-Edge Rule for Under 2.5 / Over 2.5
 4. **Filter 2 data-quality rule scoped** — it covers disagreement between sources of *comparable standing*, not a primary source disagreeing with a banned one. Both Eliteserien matches were wrongly eliminated on what turned out to be a two-round-stale aggregator snapshot, discarding the only fresh-data competition on the card. Adds the stale-delta check, the banned-source check, and the friendlies-in-form-lists quirk.
 
 Also (same 39-bet review): **Step 8 staking ladder resolved to a flat 4% of bankroll, NOT EV-scaled** (band pinned to a single 4% figure to remove per-bet discretion; hard cap 5%). A proposed EV-scaled ladder (3%→10% of bank) was simulated against the 39-bet history and underperformed flat staking (+24.9 vs +40.6) with a larger drawdown, because claimed edge was anti-correlated with results — high EV columns lost. Hard cap lowered from "15 kr / 3% of 500" to "5% of current bankroll." Revisit trigger added: reconsider EV-scaling only at ~60 bets, and only if high-EV columns are profitable by then; if so, use a compressed 3%→5% ladder, never the aggressive 3%→10% version.
+
+**2026-07-24: Denmark (Superliga + 1. division), Poland (Ekstraklasa), Argentina (Liga Profesional) and Mexico (Liga MX) approved** by the user and added to Scope, each on a day their matches were live in the window. A new **opening-round / early-tournament caveat** was written: the Danish and Polish 2026/27 seasons open in late July, and the Argentine Clausura Fecha 1 / Mexican Apertura Jornada 2 carry little current-tournament form, so the rate model can't run on opening matchdays — picks lean on H2H + previous-tournament baseline + any cup form, never preseason friendlies, and opening-day favourites are the worst bets. The day's run over the new leagues delivered Huracán–Banfield (an Argentine Fecha 1) as a low-total read: 6/6 recent H2H under 2.5 and two anemic attacks, but the book didn't offer U. 2.5 and BTTS No was a trap (Huracán score 8/9 at home vs Banfield), so the pick landed on Huracán to win @ 1.95. Scope now: World Cup 2026 + Champions League + Europa League + MLS + Brasileirão + Argentina Liga Profesional + Mexico Liga MX + Danish Superliga & 1. division + Polish Ekstraklasa + Eliteserien, League of Ireland, Superettan, Allsvenskan, Besta deild karla.
