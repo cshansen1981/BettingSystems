@@ -19,9 +19,9 @@
 ;;      ("Resultat" . "2-1")
 ;;      ("Odds"     . 2.05)
 ;;      ("Indsats"  . 12.5)
-;;      ("Vundet"   . 25.5)))
+;;      ("W"        . 1)))
 ;;
-;; The #, Saldo and Bankroll columns are formula-driven (#+TBLFM), so
+;; The #, Vundet, Saldo and Bankroll columns are formula-driven (#+TBLFM), so
 ;; only pass the input columns -- the rest are recomputed on save.
 
 ;;; Code:
@@ -153,8 +153,76 @@ those pending edits."
       (error "Buffer %s has unsaved changes; save or revert it first"
              (buffer-name)))
     (my/org-table-upsert-named name row-key entries no-recalc)
+    (unless no-recalc (ignore-errors (my/bets-refresh-stats)))
     (save-buffer)
     (buffer-file-name)))
+
+;;;; Summary statistics --------------------------------------------------------
+;;
+;; The stats live in a small `#+NAME: stats' table.  They can't be pure
+;; #+TBLFM formulas: streaks need sequential logic Calc lacks, and the
+;; Resultat column is non-numeric so Calc can't even tell settled rows from
+;; pending ones.  So they are computed here and written into the table on
+;; every upsert (and via `rake bets:stats').
+
+(defun my/bets--data-rows (name)
+  "Return the data rows of the table named NAME (header and hlines removed)."
+  (save-excursion
+    (goto-char (point-min))
+    (let ((case-fold-search t))
+      (unless (re-search-forward
+               (format "^[ \t]*#\\+NAME:[ \t]*%s[ \t]*$" (regexp-quote name)) nil t)
+        (error "No table named %S" name)))
+    (forward-line 1)
+    (unless (org-at-table-p) (error "No table after #+NAME: %s" name))
+    (cdr (seq-remove (lambda (r) (eq r 'hline)) (org-table-to-lisp)))))
+
+(defun my/bets-stats (&optional name)
+  "Compute win/streak/odds statistics from the bets table NAME (default \"bets\").
+Per row: won = W=1 and Odds>1; lost = W=0 and Resultat set; void = W=1 and
+Odds<=1; pending = Resultat empty.  Voids and pending are skipped -- they
+neither count toward win% nor break a streak.  Returns a plist."
+  (let ((rows (my/bets--data-rows (or name "bets")))
+        (wins 0) (losses 0) (winrun 0) (lossrun 0)
+        (maxwin 0) (maxloss 0) (maxodds 0.0))
+    (dolist (r rows)
+      (let* ((res  (org-trim (or (nth 5 r) "")))
+             (odds (string-to-number (or (nth 6 r) "0")))
+             (w    (org-trim (or (nth 9 r) "")))
+             (pending (string= res ""))
+             (won  (and (string= w "1") (> odds 1.0)))
+             (lost (and (string= w "0") (not pending))))
+        (cond
+         (won  (setq wins (1+ wins) winrun (1+ winrun) lossrun 0)
+               (when (> winrun maxwin) (setq maxwin winrun))
+               (when (> odds maxodds) (setq maxodds odds)))
+         (lost (setq losses (1+ losses) lossrun (1+ lossrun) winrun 0)
+               (when (> lossrun maxloss) (setq maxloss lossrun))))))
+    (list :winpct (if (> (+ wins losses) 0) (/ (* 100.0 wins) (+ wins losses)) 0.0)
+          :maxwin maxwin :maxloss maxloss :maxodds maxodds
+          :wins wins :losses losses)))
+
+(defun my/bets-refresh-stats (&optional stats-name bets-name)
+  "Write statistics from the bets table into the #+NAME: STATS-NAME table.
+STATS-NAME defaults to \"stats\", BETS-NAME to \"bets\".  Fills columns 2-5
+of the single data row (Gevinst-%, win streak, loss streak, max odds won)."
+  (let* ((s (my/bets-stats (or bets-name "bets")))
+         (vals `((2 . ,(format "%.1f" (plist-get s :winpct)))
+                 (3 . ,(number-to-string (plist-get s :maxwin)))
+                 (4 . ,(number-to-string (plist-get s :maxloss)))
+                 (5 . ,(format "%.2f" (plist-get s :maxodds))))))
+    (save-excursion
+      (goto-char (point-min))
+      (when (re-search-forward
+             (format "^[ \t]*#\\+NAME:[ \t]*%s[ \t]*$" (regexp-quote (or stats-name "stats")))
+             nil t)
+        (forward-line 1)
+        (when (org-at-table-p)
+          (goto-char (org-table-begin))
+          (forward-line 1)                    ; header row -> data row
+          (dolist (cell vals)
+            (org-table-get-field (car cell) (cdr cell)))
+          (org-table-align))))))
 
 (provide 'bets-table)
 ;;; bets-table.el ends here

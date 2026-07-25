@@ -392,16 +392,16 @@ Log the EV every time regardless — it's the data that decides whether EV-scali
 
   ```
   rake bets:upsert ROW=<n> DAG=DD-MM-YY KAMP="Team A - Team B" TYPE="U. 2.5" \
-       EV=<ev> RESULTAT=<score> ODDS=<odds> INDSATS=<stake> VUNDET=<returned>
+       EV=<ev> ODDS=<odds> INDSATS=<stake>
   ```
 
-  Pass only the input columns; `#`, `Saldo`, and `Bankroll` are recomputed by the table's `#+TBLFM`. Partial updates work — e.g. to fill a result after the match: `rake bets:upsert ROW=<n> RESULTAT=1-2 VUNDET=0`. See `Rakefile` and `JuniSystemet/bets-table.el`.
+  Pass only the input columns; `#`, `Vundet`, `Saldo`, and `Bankroll` are recomputed by the table's `#+TBLFM`. Partial updates work — after the match, set the win flag: `rake bets:upsert ROW=<n> RESULTAT=1-2 WON=0` (`WON=1` win/void, `0` loss). See `Rakefile` and `JuniSystemet/bets-table.el`.
 
 Either way, the skill still only produces the values; it never chooses the result or the stake for the user.
 
 The `bets.org` table has these columns:
 
-`# | Dag | Kamp | Type | EV | Resultat | Odds | Indsats | Vundet | Saldo | Bankroll`
+`# | Dag | Kamp | Type | EV | Resultat | Odds | Indsats | Vundet | W | Saldo | Bankroll`
 
 The user manually enters:
 - **Dag** — date (DD-MM-YY)
@@ -411,9 +411,9 @@ The user manually enters:
 - **Odds** — actual odds taken
 - **Indsats** — stake (flat % of bankroll per Step 8)
 - **Resultat** — final score, entered after the match (e.g. `1-2`)
-- **Vundet** — amount returned: `Indsats × Odds` on a win, `0` on a loss
+- **W** — win flag, entered after the match: `1` = won or void/push, `0` = lost (or still pending). This is the only result input needed; Vundet is derived from it.
 
-Auto-computed by the table's `#+TBLFM` formula — **do not enter these**: `#` (row number), `Saldo` (running P&L), `Bankroll` (running balance).
+Auto-computed by the table's `#+TBLFM` formula — **do not enter these**: `#` (row number), **`Vundet`** (= `floor(2 × Odds × Indsats) / 2 × W` — the win return rounded **down** to the nearest 0.5 kr as the provider does, or 0 when `W=0`), `Saldo` (running P&L), `Bankroll` (running balance). The flooring means e.g. 7 × 1.95 = 13.65 → **13.5**, 13 × 1.87 = 24.31 → **24.0**, 10 × 2.05 = 20.5 → **20.5**.
 
 When delivering a pick, present these values ready to paste so the user can log in one step. A skip day is logged as a row with `Indsats` = 0 and a note in `Type`/`Kamp` explaining why.
 

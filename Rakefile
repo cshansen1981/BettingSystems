@@ -5,12 +5,12 @@
 # call `my/org-table-upsert-file'.
 #
 # Examples:
-#   # append a new row (#, Saldo, Bankroll are computed by #+TBLFM):
+#   # append a new row (#, Vundet, Saldo, Bankroll are computed by #+TBLFM):
 #   rake bets:upsert ROW=41 DAG=20-07-26 KAMP="Danmark - Sverige" TYPE="O. 2.5" \
-#        EV=8.65 RESULTAT=2-1 ODDS=2.05 INDSATS=12.5 VUNDET=25.5
+#        EV=8.65 RESULTAT=2-1 ODDS=2.05 INDSATS=12.5 WON=1
 #
-#   # update only some fields of an existing row:
-#   rake bets:upsert ROW=15 RESULTAT=0-1 VUNDET=0
+#   # update only some fields of an existing row (WON=1 win/void, 0 loss):
+#   rake bets:upsert ROW=15 RESULTAT=0-1 WON=0
 
 require "shellwords"
 
@@ -28,7 +28,7 @@ COLUMNS = {
   "RESULTAT" => "Resultat",
   "ODDS"     => "Odds",
   "INDSATS"  => "Indsats",
-  "VUNDET"   => "Vundet",
+  "WON"      => "W",
 }.freeze
 
 # Emacs client binary and optional server socket, both overridable via ENV.
@@ -59,7 +59,7 @@ end
 
 namespace :bets do
   desc "Insert or update a row. ROW=<n> plus any of " \
-       "DAG KAMP TYPE EV RESULTAT ODDS INDSATS VUNDET"
+       "DAG KAMP TYPE EV RESULTAT ODDS INDSATS WON"
   task :upsert do
     row = ENV["ROW"] or abort("ROW is required, e.g. ROW=41")
     entries = entries_from_env
@@ -72,6 +72,16 @@ namespace :bets do
             "(my/org-table-upsert-file #{elisp_string(BETS_ORG)} " \
             "#{elisp_string(TABLE)} #{elisp_string(row)} #{alist}))"
 
+    emacsclient_eval(form)
+  end
+
+  desc "Refresh the summary statistics table (win%, streaks, max odds won)"
+  task :stats do
+    form = "(progn (load #{elisp_string(BETS_EL)}) " \
+           "(with-current-buffer (find-file-noselect #{elisp_string(BETS_ORG)}) " \
+           "(when (buffer-modified-p) " \
+           "(error \"Buffer has unsaved changes; save or revert it first\")) " \
+           "(my/bets-refresh-stats) (save-buffer)))"
     emacsclient_eval(form)
   end
 end
