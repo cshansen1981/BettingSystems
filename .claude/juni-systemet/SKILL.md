@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Find the single best value bet of the day targeting odds around 2.00, using a structured research and analysis process. Scope: 2026 FIFA World Cup + approved supplement leagues. One pick per day, no exceptions.
+Find the single best value bet of the day targeting odds around 2.00, using a structured research and analysis process. Scope: 2026 FIFA World Cup + approved supplement leagues. One pick per day — this holds until the gated multi-bet revisit in Step 8 triggers (it has not yet); a deep card is not a reason to bet more.
 
 **⚠️ This version consolidates rules that were previously scattered across chat history and never written back into this file. See the changelog note at the bottom for what changed vs. the prior version.**
 
@@ -20,8 +20,10 @@ Find the single best value bet of the day targeting odds around 2.00, using a st
 - **Polish Ekstraklasa** — approved by the user on 2026-07-24. Deep H2H; the 2026/27 season also opens in late July, so the same opening-round caveat applies. Newly promoted sides (a club's first top-flight game) can be effective first-ever meetings — treat those as a Filter 1 concern.
 - **Argentina Liga Profesional** — approved by the user on 2026-07-24. Deep H2H, good liquidity. Kick-offs are in the South American window (22:00–02:30 CET), at the far end of the pick window. The Apertura/Clausura split means a Fecha 1 has no current-tournament form; in 2026 the post-WC timing compounds it. Mitigant: most Argentine internationals play in Europe, so domestic squads are less gutted by call-ups than Brazil's were. See the opening-round caveat below.
 - **Mexico Liga MX** — approved by the user on 2026-07-24. Deep H2H, good liquidity. Apertura/Clausura split, so early jornadas carry little current-tournament form. Kick-offs are in the North American window (02:00–06:00 CET), the far end of the pick window. Watch for own-book (e.g. Caliente) soft/promotional lines — confirm the price on an approved book. See the opening-round caveat below.
+- **Brazil Série B (Betano)** — approved by the user on 2026-07-28. Deep H2H, good liquidity on approved books. Kick-offs are in the South American window (usually 00:00–02:35 CET), at the far end of the pick window. It paused for the 2026 World Cup exactly as Série A did, so the **post-tournament-break caveat below applies in full** — the season table stays valid, "last 6" lists are not usable across the break, and squad news outranks the model on the first matchdays back.
+- **CONMEBOL Copa Sudamericana** — approved by the user on 2026-07-28. Continental knockout between South American clubs, deep H2H and good liquidity on approved books. Kick-offs are in the South American window (22:00–02:30 CET), at the far end of the pick window. **Two-legged-tie caveat:** in the knockout/playoff rounds, check the first-leg aggregate *before* researching — a lopsided aggregate (a side 2–3 goals up) turns the second leg into a near-dead rubber with heavy rotation risk on both sides (the leader coasts, the trailing side is semi-eliminated). That is a Filter 1 dead-rubber concern, not a value spot. Level aggregates and single-leg ties are full scope.
 
-### Post-tournament-break caveat (MLS, Brasileirão)
+### Post-tournament-break caveat (MLS, Brasileirão Série A & B)
 
 **The first one or two matchdays back from a major-tournament break are a degraded data environment.** Both leagues paused for the 2026 World Cup and resumed within days of the final; on 2026-07-22 the most recent competitive form for every Brazilian and MLS side was ~7 weeks old, and returning internationals were being rested, rotated, or reintegrated.
 
@@ -108,7 +110,8 @@ When two picks are equally strong, prefer the later kick-off.
 
 - World Cup 2026 fixtures (all stages)
 - Champions League and Europa League (see the seasonal caveat in Scope above before researching qualifying-round ties)
-- MLS, Brasileirão Série A, Argentina Liga Profesional, Mexico Liga MX
+- MLS, Brasileirão Série A, Brazil Série B, Argentina Liga Profesional, Mexico Liga MX
+- CONMEBOL Copa Sudamericana (check the first-leg aggregate before researching a two-legged tie — see the two-legged-tie caveat in Scope above)
 - Danish Superliga + 1. division, Polish Ekstraklasa (see the opening-round caveat in Scope above)
 - Approved supplement leagues (see Scope above)
 
@@ -381,6 +384,21 @@ At ~60 logged bets, re-run the staking simulation. **Only** move to an EV-scaled
 
 Log the EV every time regardless — it's the data that decides whether EV-scaling is ever justified.
 
+### One pick per day — revisit trigger (multi-bet)
+
+**One pick per day is the rule until the edge is calibrated — gated on the same ~60-bet check as EV-scaling.** A second bet is by construction your *lower*-ranked pick, and over the first 39 bets claimed EV was anti-correlated with results (corr ≈ −0.13). Adding a second bet a day amplifies an uncalibrated signal through breadth exactly as an EV-scaled stake would through size — the same mistake in a different dimension.
+
+**Availability is not the constraint — bankroll discipline is.** The 24-hour window routinely holds several non-overlapping matches (a 16:00 Eliteserien pick settles long before a 22:00 South-American kick-off), so "there were more good games today" is always true and is not a reason to bet more. Two flat 4% bets put 8% of bank in play in a day — past the 5% single-pick hard cap in spirit.
+
+**Revisit at ~60 logged bets, together with the EV-scaling check.** Only move to more than one pick per day if, at that point, the high-EV picks are profitable — the same condition that gates EV-scaling. If the edge is real by then, added *independent* volume is genuinely +EV, and sequential non-overlapping fixtures are near-uncorrelated, so a qualifying second pick diversifies variance rather than stacking it. If the edge is still uncalibrated, multi-bet stays retired and one pick per day continues.
+
+If it graduates, only under these constraints:
+- **A second bet only if it independently clears Filter 2 and Step 3 with real edge** — never a filler pick to "use the window." The Skip Day Rule tolerates a marginal *primary* pick; a second bet is optional exposure and must clear a genuine-edge bar, not a marginal one.
+- **Cap exposure by day, not by bet** — a daily budget (e.g. 4% total split across picks, or a hard daily cap ~6%), so breadth never quietly exceeds the single-bet risk limit.
+- **Anti-Bias and arguments-before-EV apply per bet.** More slots is more room to rationalize a weak pick in, so the discipline bar rises — it does not relax.
+
+Until that trigger fires, the answer to "there are more good matches today" is still one pick.
+
 -----
 
 ## Step 9: Log the Bet
@@ -421,7 +439,7 @@ When delivering a pick, present these values ready to paste so the user can log 
 
 ## Notes
 
-- One pick per day maximum
+- One pick per day maximum (until the gated multi-bet revisit in Step 8 triggers at ~60 bets)
 - A skip day is only valid when no match survives Filter 2
 - Track ROI over a minimum of 50 bets before drawing conclusions about edge
 - Reassess probability methodology if win rate diverges significantly from assessed probabilities over 30+ bets
@@ -456,4 +474,8 @@ Later addition (after 39-bet review): **Knife-Edge Rule for Under 2.5 / Over 2.5
 
 Also (same 39-bet review): **Step 8 staking ladder resolved to a flat 4% of bankroll, NOT EV-scaled** (band pinned to a single 4% figure to remove per-bet discretion; hard cap 5%). A proposed EV-scaled ladder (3%→10% of bank) was simulated against the 39-bet history and underperformed flat staking (+24.9 vs +40.6) with a larger drawdown, because claimed edge was anti-correlated with results — high EV columns lost. Hard cap lowered from "15 kr / 3% of 500" to "5% of current bankroll." Revisit trigger added: reconsider EV-scaling only at ~60 bets, and only if high-EV columns are profitable by then; if so, use a compressed 3%→5% ladder, never the aggressive 3%→10% version.
 
+**2026-07-25: gated multi-bet rule added to Step 8.** The user asked whether a deep card (e.g. an early-evening Eliteserien pick that settles before the South-American window opens) justifies more than one bet a day. It does not, yet — one pick per day is retained as the rule, gated on the *same* ~60-bet calibration check as EV-scaling, and for the same reason: a second bet is your lower-ranked pick, and claimed EV was anti-correlated with results over the first 39 bets, so adding breadth amplifies an uncalibrated edge exactly as EV-scaled stake size would. Availability is explicitly *not* the constraint (the 24-hour window nearly always holds non-overlapping matches); bankroll discipline is — two flat 4% bets breach the 5% single-pick cap in spirit. If it graduates at ~60 bets (only if high-EV picks are profitable by then), it comes with constraints: a second bet must independently clear Filter 2 + Step 3 with real edge (no fillers), exposure is capped by day not by bet, and Anti-Bias / arguments-before-EV apply per bet. Purpose line and Notes cross-reference the trigger.
+
 **2026-07-24: Denmark (Superliga + 1. division), Poland (Ekstraklasa), Argentina (Liga Profesional) and Mexico (Liga MX) approved** by the user and added to Scope, each on a day their matches were live in the window. A new **opening-round / early-tournament caveat** was written: the Danish and Polish 2026/27 seasons open in late July, and the Argentine Clausura Fecha 1 / Mexican Apertura Jornada 2 carry little current-tournament form, so the rate model can't run on opening matchdays — picks lean on H2H + previous-tournament baseline + any cup form, never preseason friendlies, and opening-day favourites are the worst bets. The day's run over the new leagues delivered Huracán–Banfield (an Argentine Fecha 1) as a low-total read: 6/6 recent H2H under 2.5 and two anemic attacks, but the book didn't offer U. 2.5 and BTTS No was a trap (Huracán score 8/9 at home vs Banfield), so the pick landed on Huracán to win @ 1.95. Scope now: World Cup 2026 + Champions League + Europa League + MLS + Brasileirão + Argentina Liga Profesional + Mexico Liga MX + Danish Superliga & 1. division + Polish Ekstraklasa + Eliteserien, League of Ireland, Superettan, Allsvenskan, Besta deild karla.
+
+**2026-07-28: Brazil Série B and CONMEBOL Copa Sudamericana approved** by the user and added to Scope + the Step 1 scan list, each on a day their matches were in the window. Série B inherits the post-tournament-break caveat in full (it paused for the World Cup exactly as Série A did). Copa Sudamericana carries a new **two-legged-tie caveat**: check the first-leg aggregate before researching, because a lopsided aggregate (a side 2–3 goals up) makes the second leg a near-dead rubber with rotation risk on both sides — a Filter 1 dead-rubber concern. The day's run demonstrated it: both in-window Sudamericana second legs (Tigre–Nacional, Santos–Universidad Central) were eliminated on lopsided +3 aggregates, both in-window Série B Unders were priced through (Juventude–Avaí U. 2.5 @ 1.67), and the pick landed on Barracas Central to win @ 2.29 (Argentine Clausura Fecha 2) — a defensive home side vs a weak-away Aldosivi, with the Under 1.45 / BTTS-No ~1.50 pricing confirming a low-event game that suits the better home team. Scope now: World Cup 2026 + Champions League + Europa League + MLS + Brasileirão Série A + Brazil Série B + Copa Sudamericana + Argentina Liga Profesional + Mexico Liga MX + Danish Superliga & 1. division + Polish Ekstraklasa + Eliteserien, League of Ireland, Superettan, Allsvenskan, Besta deild karla.
