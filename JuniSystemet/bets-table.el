@@ -184,33 +184,44 @@ Odds<=1; pending = Resultat empty.  Voids and pending are skipped -- they
 neither count toward win% nor break a streak.  Returns a plist."
   (let ((rows (my/bets--data-rows (or name "bets")))
         (wins 0) (losses 0) (winrun 0) (lossrun 0)
-        (maxwin 0) (maxloss 0) (maxodds 0.0))
+        (maxwin 0) (maxloss 0) (maxodds 0.0)
+        (oddsum 0.0) (betcount 0))
     (dolist (r rows)
       (let* ((res  (org-trim (or (nth 5 r) "")))
              (odds (string-to-number (or (nth 6 r) "0")))
+             (indsats (string-to-number (or (nth 7 r) "0")))
              (w    (org-trim (or (nth 9 r) "")))
              (pending (string= res ""))
              (won  (and (string= w "1") (> odds 1.0)))
+             (void (and (string= w "1") (<= odds 1.0)))
              (lost (and (string= w "0") (not pending))))
         (cond
          (won  (setq wins (1+ wins) winrun (1+ winrun) lossrun 0)
                (when (> winrun maxwin) (setq maxwin winrun))
                (when (> odds maxodds) (setq maxodds odds)))
          (lost (setq losses (1+ losses) lossrun (1+ lossrun) winrun 0)
-               (when (> lossrun maxloss) (setq maxloss lossrun))))))
+               (when (> lossrun maxloss) (setq maxloss lossrun))))
+        ;; Average odds is over every actual bet (stake > 0), counting
+        ;; pending rows, but excluding voids (odds <= 1 pull it down) and
+        ;; skip-days (Indsats = 0).
+        (when (and (> indsats 0) (not void))
+          (setq oddsum (+ oddsum odds) betcount (1+ betcount)))))
     (list :winpct (if (> (+ wins losses) 0) (/ (* 100.0 wins) (+ wins losses)) 0.0)
           :maxwin maxwin :maxloss maxloss :maxodds maxodds
+          :avgodds (if (> betcount 0) (/ oddsum betcount) 0.0)
           :wins wins :losses losses)))
 
 (defun my/bets-refresh-stats (&optional stats-name bets-name)
   "Write statistics from the bets table into the #+NAME: STATS-NAME table.
-STATS-NAME defaults to \"stats\", BETS-NAME to \"bets\".  Fills columns 2-5
-of the single data row (Gevinst-%, win streak, loss streak, max odds won)."
+STATS-NAME defaults to \"stats\", BETS-NAME to \"bets\".  Fills columns 2-6
+of the single data row (Gevinst-%, win streak, loss streak, max odds won,
+average odds)."
   (let* ((s (my/bets-stats (or bets-name "bets")))
          (vals `((2 . ,(format "%.1f" (plist-get s :winpct)))
                  (3 . ,(number-to-string (plist-get s :maxwin)))
                  (4 . ,(number-to-string (plist-get s :maxloss)))
-                 (5 . ,(format "%.2f" (plist-get s :maxodds))))))
+                 (5 . ,(format "%.2f" (plist-get s :maxodds)))
+                 (6 . ,(format "%.2f" (plist-get s :avgodds))))))
     (save-excursion
       (goto-char (point-min))
       (when (re-search-forward
