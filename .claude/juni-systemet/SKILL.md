@@ -22,6 +22,19 @@ Find the single best value bet of the day targeting odds around 2.00, using a st
 - **Mexico Liga MX** — approved by the user on 2026-07-24. Deep H2H, good liquidity. Apertura/Clausura split, so early jornadas carry little current-tournament form. Kick-offs are in the North American window (02:00–06:00 CET), the far end of the pick window. Watch for own-book (e.g. Caliente) soft/promotional lines — confirm the price on an approved book. See the opening-round caveat below.
 - **Brazil Série B (Betano)** — approved by the user on 2026-07-28. Deep H2H, good liquidity on approved books. Kick-offs are in the South American window (usually 00:00–02:35 CET), at the far end of the pick window. It paused for the 2026 World Cup exactly as Série A did, so the **post-tournament-break caveat below applies in full** — the season table stays valid, "last 6" lists are not usable across the break, and squad news outranks the model on the first matchdays back.
 - **CONMEBOL Copa Sudamericana** — approved by the user on 2026-07-28. Continental knockout between South American clubs, deep H2H and good liquidity on approved books. Kick-offs are in the South American window (22:00–02:30 CET), at the far end of the pick window. **Two-legged-tie caveat:** in the knockout/playoff rounds, check the first-leg aggregate *before* researching — a lopsided aggregate (a side 2–3 goals up) turns the second leg into a near-dead rubber with heavy rotation risk on both sides (the leader coasts, the trailing side is semi-eliminated). That is a Filter 1 dead-rubber concern, not a value spot. Level aggregates and single-leg ties are full scope.
+- **Romanian SuperLiga (Liga I)** — approved by the user on 2026-08-03. 16 teams, deep H2H between long-established clubs, good liquidity on approved books. Romanian local time is CET+1, so kick-offs land in the European window, roughly 17:00–20:30 CET. Two structural quirks to carry into research:
+  - **The regular season is a *single* round-robin (15 rounds), then a championship play-off (top 6) and relegation play-out (bottom 10) with points halved and rounded up.** So within a campaign two clubs meet only *once* before the split. Current-season H2H is therefore thin by construction — lean on prior seasons for H2H depth, and never treat "no meeting yet this season" as missing data.
+  - **The halving at the split distorts the table.** After the split, points totals no longer describe the season played, so the attack/defence rate model must run on cumulative goal data, not on the displayed table. The play-out phase in particular manufactures dead rubbers once safety is mathematically settled — a Filter 1 concern.
+  - The 2026/27 season opened on 18 July 2026, so the **opening-round caveat below applies** through the first handful of rounds.
+- **Bulgarian Parva Liga (efbet League)** — approved by the user on 2026-08-03. 14 teams in 2026/27 (down from 16), season 17 July 2026 – 29 May 2027, double round-robin of 26 rounds before splitting into Championship / Conference League / Relegation groups. Bulgarian local time is CET+1, so kick-offs land in the European window, roughly 17:00–20:30 CET.
+  - **This is the lowest-scoring league in scope: 2.3 goals per match in 2025/26.** Calibrate against that number, not against instinct — for comparison Iceland ran at 3.94, Denmark 3.1, Sweden 3.05, Romania 2.55. An Under 2.5 here is *normal*, not an edge, and the goals markets are priced accordingly. Never import a "low total" read from another league.
+  - **Liquidity is thin and margins are wide.** Observed 1X2 payouts on approval day were 83–88%, against ~90% for the Allsvenskan. The wider the margin, the higher the true probability needed to clear break-even — combined with the payout flooring, short prices here are close to unplayable. The Step 7 reaffirmation on an approved book matters as much as it does for Iceland.
+  - Verify whether points **carry or halve** at the group split before running any model on the displayed table — do not assume the Romanian halving rule applies.
+  - The 2026/27 season opened 17 July 2026, so the **opening-round caveat below applies**.
+- **Finnish Veikkausliiga** — approved by the user on 2026-08-03. 12 teams on a **calendar-year season (April–November)**, an 18-round regular season and then a split into a Championship round (top 6) and Relegation round (bottom 6). Finnish local time is CET+1, so kick-offs land early in the European window, roughly 17:00–19:00 CET. League scoring runs ~2.4–2.6 goals per match.
+  - **Unlike the other summer-approved leagues, Finland is *mid-season* in July–August, not form-light.** By August it has a full 17–18-round table and deep H2H, which makes it a **rung 1** data environment on the League Ladder while Romania, Bulgaria, Denmark and Poland are sitting on rung 3. Do not lump it in with them.
+  - **The 18-round split falls in early August.** Late regular-season rounds carry seeding stakes rather than being dead, but check where both sides sit relative to the top-six cut before assuming motivation is symmetric — and remember that after the split the same opponents recur quickly, so H2H can refresh mid-season.
+  - **Finnish clubs are in European qualifying through July and August.** HJK were three days from a Conference League tie on the day the league was approved, and that rotation risk was the single most important input on their price. Check the European calendar before trusting a table-based model on any Finnish side.
 
 ### Post-tournament-break caveat (MLS, Brasileirão Série A & B)
 
@@ -54,9 +67,9 @@ This is a **strong prior, not a blanket exclusion.** Qualifying ties still get s
 
 Competition-type exclusions are **not** a blanket rule. Exclusion must be justified match-by-match on data depth, market liquidity, and H2H history — never assumed without actually searching first.
 
-### Opening-round / early-tournament caveat (Denmark, Poland, Argentina, Mexico)
+### Opening-round / early-tournament caveat (Denmark, Poland, Romania, Bulgaria, Argentina, Mexico)
 
-**Season openers and the first jornada/fecha of a new tournament are a form-light environment.** The 2026/27 Danish and Polish seasons open in late July; the Argentine Clausura and Mexican Apertura run on an Apertura/Clausura split, so their opening rounds carry no current-tournament form. In 2026 all four also restart close to the World Cup break, compounding the staleness.
+**Season openers and the first jornada/fecha of a new tournament are a form-light environment.** The 2026/27 Danish and Polish seasons open in late July and the Romanian SuperLiga on 18 July; the Argentine Clausura and Mexican Apertura run on an Apertura/Clausura split, so their opening rounds carry no current-tournament form. In 2026 all four also restart close to the World Cup break, compounding the staleness.
 
 - **H2H stays usable; "current-season form" does not.** On matchday one there is no league table to run the attack/defence-rate model on. Lean on H2H, the *previous* tournament's table as a quality baseline, and any cup form played during the gap — but never assess a probability off preseason friendlies.
 - **This is a strong prior, not a blanket exclusion.** A fixture with deep H2H and a clear quality gap is still a legitimate candidate; what the caveat forbids is manufacturing an edge from form that doesn't exist yet.
@@ -113,6 +126,9 @@ When two picks are equally strong, prefer the later kick-off.
 - MLS, Brasileirão Série A, Brazil Série B, Argentina Liga Profesional, Mexico Liga MX
 - CONMEBOL Copa Sudamericana (check the first-leg aggregate before researching a two-legged tie — see the two-legged-tie caveat in Scope above)
 - Danish Superliga + 1. division, Polish Ekstraklasa (see the opening-round caveat in Scope above)
+- Romanian SuperLiga (single round-robin before the play-off/play-out split — see the two structural quirks in Scope above)
+- Bulgarian Parva Liga (lowest-scoring league in scope at 2.3 goals/match, thin liquidity and wide margins — see Scope above)
+- Finnish Veikkausliiga (calendar-year season, so **mid-season and rung 1** in July–August, unlike the other summer additions — see Scope above)
 - Approved supplement leagues (see Scope above)
 
 **Search queries (fixture lists only — not tipster sites):**
@@ -185,6 +201,21 @@ On 2026-07-22 both Eliteserien matches were wrongly eliminated under this rule. 
 
 **If the same market type would be picked three times consecutively**, a written steelman for the opposing market is mandatory before confirming.
 
+### League Ladder — exhaust the scope before declaring a skip
+
+**A league producing no candidate is one league crossed off a list, not a result.** When every match in a competition dies at Filter 1, Filter 2, Step 3 or Step 6, move to the next competition on the ladder and work it to the same depth. The Skip Day Rule may not be invoked until every in-scope competition with matches in the window has been worked this way.
+
+**Ladder position is research order, not eligibility.** A lower-ranked league is not a worse bet — it is a later look. A league's rung changes nothing about its stake, its EV bar, or its right to be the day's pick. On 2026-08-02 the pick came off rung 3 (Danish Superliga round 2) after both rung-1 Nordic leagues produced nothing.
+
+**Derive the ladder fresh each day — never hardcode it.** League quality rotates with the calendar: Eliteserien is rung 1 in August and rung 3 in March. Rank by data environment:
+
+1. **Full current-season table** (≈8+ rounds played), deep H2H, liquid on approved books. The attack/defence rate model can run on real data.
+2. **Full table but degraded** — thin liquidity (Besta deild karla), or a form caveat in force (post-tournament-break: season table stays valid, "last 6" lists do not).
+3. **Form-light** — opening rounds, first fechas/jornadas. H2H plus the previous season's or tournament's table as a quality baseline only. No rate model.
+4. **Qualifying rounds / first-ever meetings.** Strong prior toward elimination, still checked individually.
+
+**Depth per rung: a complete Filter 2 market scan on every Filter 1 survivor before moving on.** All of Over/Under, BTTS, Asian Handicap, HT, 1X2/DC — never a 1X2-only sweep. **A league is not eliminated until its goals markets have been priced.**
+
 ### Skip Day Rule
 
 A skip day is legitimate in exactly two cases:
@@ -192,9 +223,11 @@ A skip day is legitimate in exactly two cases:
 1. **No match survives Filter 2.**
 2. **Every Filter 2 survivor then fails Step 3** — because its evidence block cannot be filled from fetched primary sources, or because the arguments, once written, don't support the bet the model liked.
 
+Both cases require the **League Ladder** above to have been exhausted first. *"No pick in [league]"* is never a skip reason on its own.
+
 Otherwise the day produces a pick — best available, even if EV is only marginal. Reaching deep research is **not** by itself a commitment to bet; Step 3 and Step 6 are allowed to eliminate a match, and if they eliminate all of them the day is a skip.
 
-**Log the reason in the skip row's `Type`**, distinguishing the two cases — e.g. `SKIP - ingen kant efter research` vs `SKIP - team news ej tilgaengelig`. The distinction matters: repeated skips of type 1 mean the card is thin, while repeated skips for unavailable primary sources mean a **research-access problem** that needs fixing rather than a run of quiet days. Track which is accumulating.
+**Never log a skip.** A skip day produces **no row in `bets.org`** — that table holds only real bets. Do not write a zero-stake placeholder row: it consumes a bet number and a dummy `Odds` value corrupts `Gennemsnitsodds` and `Gevinst-%` in the stats table. Report the skip and its reason to the user in chat, and leave the table untouched — `Bankroll` simply carries forward to the next actual pick.
 
 **This rule was rewritten on 2026-07-22**, when it contradicted Step 3 for the first time. Four Brazilian matches reached deep research, and all four had an unfillable TEAM NEWS block. The old wording ("if any match reaches deep research, the day produces a pick") forced a bet off evidence that didn't exist — which is the exact mechanism that produced fake EV over the first 39 bets. Step 3 wins that conflict.
 
@@ -302,10 +335,34 @@ Empirical basis (first 14 Under 2.5 bets logged): 10 of 14 landed on exactly 2 o
 
 ## Step 5: Calculate EV and Select Best Pick
 
+### EV is calculated from effective odds, never from the quoted price
+
+The provider floors the payout to the nearest 0.5 kr (`Vundet = floor(2 × Odds × Indsats) / 2`). That truncation is real money, and EV computed off the quoted odds silently ignores it. **Always convert to effective odds first:**
+
 ```
-EV% = (true_prob × (odds - 1)) - (1 - true_prob)
+effective_odds = floor(2 × Odds × Indsats) / 2 / Indsats
+
+EV% = (true_prob × (effective_odds - 1)) - (1 - true_prob)
 EV% × 100 for percentage display
 ```
+
+> Example: 7 kr at 1.56 returns floor(2 × 1.56 × 7)/2 = 10.5, so effective odds are 10.5/7 = **1.50**, not 1.56. At an assessed 68%, EV is +2.0%, not +6.1%.
+
+**The stake must therefore be computed before the EV** — Step 8's flat 4% of the previous row's `Bankroll` is deterministic, so calculate it first and carry it into this step. This does not reintroduce discretion: the stake still does not depend on the EV, only the arithmetic order changes.
+
+Why this matters: the drag is `true_prob × 0.25 / Indsats` on average — at the current stake sizes roughly **1.5–2.5 percentage points off every bet**, biting hardest where the edge is thinnest and at short prices. Restating the first 51 bets on this basis moved the mean claimed EV from +10.78% to +8.53%, and flipped **eight** bets from claimed +EV to actually negative (#21, #25, #29, #32, #39, #43, #46, #50). Those eight were bets the system believed were value and which never were.
+
+A consequence worth internalising: **a sub-1.60 price at these stakes needs a much bigger raw edge than it looks like it does.** Bet #47 (1.53) and bet #51 (1.56) both lost about 40% of their claimed EV to flooring alone.
+
+### EV is computed for every market scanned — not just the one nearest 2.00
+
+**Filter 2 gathers prices; Step 5 evaluates them. Gathering is not evaluating.** Put every market the scan returned through the EV formula, and rank the whole card by EV before selecting a pick or declaring a skip. **A league may never be eliminated on a single market's EV**, and a league's "best line" may not be reported until every one of its lines has a number.
+
+The ~2.00 target decides which bets are *preferred*, not which get evaluated. A mispriced market at 2.30 or 3.25 is still the day's best pick; a correctly priced one at 2.00 is not.
+
+Added 2026-08-03, after the Polish card was eliminated on one number. Cracovia–Pogoń had been scanned in full — 1X2, the whole O/U ladder, AH, BTTS, HT — but only Over 2.5, the line nearest 2.00, was ever run through the formula. It came out at −10.2%, the league was crossed off, and the day's summary reported −10.2% as Poland's *best* line. Cracovia to win at 2.32 was actually **−0.7% — the best number on the entire card** — and it surfaced only because the user asked why Poland had been left out. Re-auditing on the same basis then found SønderjyskE to win at 3.25 (−1.0%), never priced at all, because the Odense win probability had been calculated and the draw and away win simply skipped.
+
+This is the League Ladder failure repeating one layer down. That rule stopped a 1X2-only *sweep*; this one stops a goals-only *evaluation*. Both are the same error — reporting a league as worked when only part of it was — so both carry the same test: **name the market you did not price, or you have not finished the league.**
 
 |EV%     |Assessment (for ranking picks, NOT for stake size)|
 |--------|--------------------------------------------------|
@@ -316,7 +373,7 @@ EV% × 100 for percentage display
 
 **EV ranks which pick to take — it does NOT set the stake.** Stake is a flat % of bankroll regardless of EV (see Step 8). Do not increase the stake for high EV: over the first 39 bets, higher claimed EV *underperformed*, so scaling stake with EV lost money. Higher EV means "prefer this pick," not "bet more on it."
 
-Calculate EV for all researched candidates. Select the highest-EV pick. No skip threshold once matches have cleared Filter 2.
+Calculate EV for every market on every researched candidate — see the subsection above. Select the highest-EV pick. No skip threshold once matches have cleared Filter 2.
 
 -----
 
@@ -357,7 +414,7 @@ The probability and EV lines sit at the bottom deliberately. They are the **conc
 
 ## Step 7: Reaffirm at Actual Odds
 
-User reports actual odds from an approved sportsbook. Recalculate EV from scratch using the actual figure:
+User reports actual odds from an approved sportsbook. Recalculate EV from scratch using the actual figure — **converted to effective odds per Step 5**, since the flooring depends on the actual price and the stake, and a price that looked fine at the target can floor badly at the real one. State the effective odds explicitly alongside the quoted odds so the user sees what they are really getting. Then:
 - EV positive → confirm the bet
 - EV negative → note it, but this is still the day's best available pick
 - Always document odds movement direction and what it signals, and adjust the stake tier if EV moved to a different band
@@ -369,6 +426,8 @@ User reports actual odds from an approved sportsbook. Recalculate EV from scratc
 ### Current rule: flat 4% of bankroll — NOT EV-scaled
 
 **Stake a flat 4% of current bankroll on every pick, regardless of EV.** A single fixed rate — no per-bet judgment. Take the previous row's `Bankroll` from `bets.org`, multiply by 0.04, round to the nearest 0.5 kr.
+
+**Compute this before Step 5**, because the effective-odds EV calculation needs the stake. The stake still never depends on the EV — only the order of arithmetic changed.
 
 > Example: bankroll 249.0 → 249 × 0.04 = 9.96 → **stake 10 kr**, whatever the EV.
 
@@ -425,7 +484,7 @@ The user manually enters:
 - **Dag** — date (DD-MM-YY)
 - **Kamp** — match (Team A - Team B)
 - **Type** — chosen market (e.g. `U. 2.5`, `O. 2.5`, `BHS: Nej`)
-- **EV** — the reaffirmed EV% at actual odds
+- **EV** — the reaffirmed EV% at actual odds, computed from **effective** odds per Step 5 (rows 1-51 were restated on this basis on 2026-08-01; do not mix the two definitions)
 - **Odds** — actual odds taken
 - **Indsats** — stake (flat % of bankroll per Step 8)
 - **Resultat** — final score, entered after the match (e.g. `1-2`)
@@ -433,7 +492,7 @@ The user manually enters:
 
 Auto-computed by the table's `#+TBLFM` formula — **do not enter these**: `#` (row number), **`Vundet`** (= `floor(2 × Odds × Indsats) / 2 × W` — the win return rounded **down** to the nearest 0.5 kr as the provider does, or 0 when `W=0`), `Saldo` (running P&L), `Bankroll` (running balance). The flooring means e.g. 7 × 1.95 = 13.65 → **13.5**, 13 × 1.87 = 24.31 → **24.0**, 10 × 2.05 = 20.5 → **20.5**.
 
-When delivering a pick, present these values ready to paste so the user can log in one step. A skip day is logged as a row with `Indsats` = 0 and a note in `Type`/`Kamp` explaining why.
+When delivering a pick, present these values ready to paste so the user can log in one step. **A skip day is never logged** — no row, not even a zero-stake one (see the Skip Day Rule in Step 2). Only bets that were actually placed go in the table.
 
 -----
 
@@ -479,3 +538,19 @@ Also (same 39-bet review): **Step 8 staking ladder resolved to a flat 4% of bank
 **2026-07-24: Denmark (Superliga + 1. division), Poland (Ekstraklasa), Argentina (Liga Profesional) and Mexico (Liga MX) approved** by the user and added to Scope, each on a day their matches were live in the window. A new **opening-round / early-tournament caveat** was written: the Danish and Polish 2026/27 seasons open in late July, and the Argentine Clausura Fecha 1 / Mexican Apertura Jornada 2 carry little current-tournament form, so the rate model can't run on opening matchdays — picks lean on H2H + previous-tournament baseline + any cup form, never preseason friendlies, and opening-day favourites are the worst bets. The day's run over the new leagues delivered Huracán–Banfield (an Argentine Fecha 1) as a low-total read: 6/6 recent H2H under 2.5 and two anemic attacks, but the book didn't offer U. 2.5 and BTTS No was a trap (Huracán score 8/9 at home vs Banfield), so the pick landed on Huracán to win @ 1.95. Scope now: World Cup 2026 + Champions League + Europa League + MLS + Brasileirão + Argentina Liga Profesional + Mexico Liga MX + Danish Superliga & 1. division + Polish Ekstraklasa + Eliteserien, League of Ireland, Superettan, Allsvenskan, Besta deild karla.
 
 **2026-07-28: Brazil Série B and CONMEBOL Copa Sudamericana approved** by the user and added to Scope + the Step 1 scan list, each on a day their matches were in the window. Série B inherits the post-tournament-break caveat in full (it paused for the World Cup exactly as Série A did). Copa Sudamericana carries a new **two-legged-tie caveat**: check the first-leg aggregate before researching, because a lopsided aggregate (a side 2–3 goals up) makes the second leg a near-dead rubber with rotation risk on both sides — a Filter 1 dead-rubber concern. The day's run demonstrated it: both in-window Sudamericana second legs (Tigre–Nacional, Santos–Universidad Central) were eliminated on lopsided +3 aggregates, both in-window Série B Unders were priced through (Juventude–Avaí U. 2.5 @ 1.67), and the pick landed on Barracas Central to win @ 2.29 (Argentine Clausura Fecha 2) — a defensive home side vs a weak-away Aldosivi, with the Under 1.45 / BTTS-No ~1.50 pricing confirming a low-event game that suits the better home team. Scope now: World Cup 2026 + Champions League + Europa League + MLS + Brasileirão Série A + Brazil Série B + Copa Sudamericana + Argentina Liga Profesional + Mexico Liga MX + Danish Superliga & 1. division + Polish Ekstraklasa + Eliteserien, League of Ireland, Superettan, Allsvenskan, Besta deild karla.
+
+**2026-08-01: EV is now calculated from effective odds, and the whole history was restated.** Caught by the user after the skill quoted a wrong payout for bet #51 (it applied the `× 2` of the flooring formula without the `/ 2`, doubling the return). The underlying error was structural, not arithmetic: `EV% = p × odds - 1` used the **quoted** price, while the provider actually pays `floor(2 × Odds × Indsats) / 2`. Step 5 now converts to `effective_odds = floor(2 × Odds × Indsats) / 2 / Indsats` first, which is exact and needs no new judgment — it also removes any need for a separate "short odds are worse than they look" caveat, because that now falls out of the arithmetic. Step 8's stake calculation moved ahead of Step 5 (the stake is a deterministic 4%, so no discretion is reintroduced).
+
+Rows 1-51 of `bets.org` were recomputed on the new basis, recovering each bet's assessed probability as `p = (EV/100 + 1) / Odds` — exactly invertible, so no information was lost. Effect: mean claimed EV fell from **+10.78% to +8.53%** (mean drag −2.25 points), and **eight bets flipped from claimed +EV to actually negative** (#21, #25, #29, #32, #39, #43, #46, #50). This matters most for the ~60-bet calibration review that gates EV-scaling and multi-bet: that review compares EV bands against results, and it would have been comparing two different quantities if the history had been left as it was. The restatement is expected to sharpen rather than overturn the existing finding — flooring hurts high-probability short-odds bets most, which is exactly where the "good value" Overs cluster.
+
+**2026-08-01: skip days are never logged.** Instructed by the user after the 31 July card produced a skip and the skill's old wording called for a placeholder row. `bets.org` now holds only bets that were actually placed. The zero-stake row was actively harmful, not merely redundant: it consumed a bet number and forced a dummy `Odds` value into the table, which feeds `Gennemsnitsodds` and `Gevinst-%` in the `#+NAME: stats` block. The skip-reason taxonomy that lived in that row's `Type` (`SKIP - ingen kant efter research` vs `SKIP - team news ej tilgaengelig`) is **retired with it** — the user chose to drop the tracking rather than relocate it, so skips now leave no record anywhere and are reported in chat only. Note the consequence, accepted deliberately: the skill can no longer detect an accumulating research-access problem from its own logs. On 31 July, six of ten eliminations were unverifiable team news — that pattern would now be invisible after the conversation ends. **Skip days themselves remain legitimate under the unchanged two-case Skip Day Rule**; only the logging of them is removed.
+
+**2026-08-03: EV must be computed for every market scanned (Step 5).** Instructed by the user after the 3 August card was declared a skip with Poland eliminated on a single number. Cracovia–Pogoń had a complete Filter 2 scan — 1X2, full O/U ladder, AH, BTTS, HT — but only Over 2.5, the market nearest the 2.00 target, was run through the EV formula; at −10.2% the league was crossed off and that figure was reported as Poland's best line. Cracovia to win at 2.32 was **−0.7%, the best number on the whole card**, and only came to light when the user pointed out that finding it on request proved it had been left out. The same re-audit surfaced SønderjyskE to win at 3.25 (−1.0%), never priced because only Odense's win probability had been calculated out of the three outcomes. Neither was positive, so the skip survived — but two claims made to the user were wrong. The rule now says the ~2.00 target selects which bets are *preferred*, not which get evaluated, that a league may not be eliminated on one market's EV, and that the whole card is ranked by EV before a pick or a skip. Explicitly framed as the League Ladder failure one layer down: that rule banned a 1X2-only *sweep*, this one bans a goals-only *evaluation*. Same run also produced two arithmetic errors in the reported EV table (Sarmiento HT U0.5 given as −7.5% when it was −14.9%; Lanús HT U0.5 as −5.7% when it was −11.8%) — the second of which the user acted on, asking for a price on the line the bad number had made look least-bad.
+
+**2026-08-03: Bulgarian Parva Liga and Finnish Veikkausliiga approved** by the user, both mid-run on the same card as Romania, and both with an in-window fixture that was scanned in full on approval (Spartak Varna–Lok. Plovdiv, SJK–HJK). Two calibration facts were written into Scope rather than left to be rediscovered. **Bulgaria is the lowest-scoring league in scope at 2.3 goals per match** — against Iceland's 3.94, Denmark's 3.1, Sweden's 3.05 and Romania's 2.55 — so an Under there is the market's default, not an edge, and its 83–88% payouts mean the margin alone eats more than the flooring does. **Finland is the opposite case: a calendar-year season, so in July–August it is mid-season with a full table and deep H2H — a rung 1 data environment**, and must not be grouped with the form-light summer additions on rung 3.
+
+The Finnish fixture also produced the sharpest illustration yet of the effective-odds rule. HJK away at **1.98** modelled at 51.7% against a break-even of 51.7% — dead flat — because at a 7.5 kr stake 2 × 1.98 × 7.5 = 29.7 floors to 29, paying 14.5 kr for an effective 1.9333. At **2.00** the same bet pays 15.0 kr, an effective 2.00 and +3.4%. Two points of quoted odds were worth a full 0.5 kr because payout moves in 0.5 kr steps: at this stake it steps every 1/15 ≈ 0.067 of odds. **When a price sits just below one of those thresholds, shopping two pips is worth more than a percentage point of assessed probability** — and it was still not a bet, because HJK had a Conference League tie three days later and that rotation risk is what the market was pricing.
+
+**2026-08-03: Romanian SuperLiga (Liga I) approved** by the user and added to Scope + the Step 1 scan list. 16 teams, deep H2H between long-established clubs, good liquidity, kick-offs in the European window (Romanian local time is CET+1, so roughly 17:00–20:30 CET). Two structural quirks were written in rather than discovered later: the regular season is a **single** round-robin of 15 rounds, so two clubs meet only once before the split and current-season H2H is thin *by construction* — prior seasons carry the H2H depth, and "no meeting yet this season" is not missing data. And the championship play-off / relegation play-out **halves the points**, so after the split the displayed table no longer describes the season played and the rate model must run on cumulative goal data; the play-out also manufactures dead rubbers once safety is settled, which is a Filter 1 concern. The 2026/27 season opened 18 July 2026, so Romania was added to the opening-round caveat heading as well. Its two 3 August fixtures were scanned in full on approval and neither cleared, so that card's skip stood — but note how the league was nearly missed: an ESPN `rou.1` date query returned "No games on this date" when there were two, the same date-boundary failure that had already hidden both Liga MX fixtures earlier the same night. **ESPN's per-league date scoreboard is not acceptable as the sole check for whether a league has fixtures in the window** — confirm against an odds source that lists by kick-off time.
+
+**2026-08-02: League Ladder added to Step 2.** Instructed by the user after the day's run declared a skip having researched only Eliteserien and Allsvenskan in depth. Two existing rules had failed silently: the opening-round caveat ("a strong prior, **not** a blanket exclusion") was applied as a blanket exclusion to eight matches across Denmark, Poland and Danish 1. division; and Filter 2's mandatory market scan was run as **1X2 only** on those leagues, so their goals markets were never priced. Re-running the scan properly found **Brøndby–Viborg Under 2.5 @ 2.02** — four of the last five H2H under 2.5, three of the last four finishing with exactly one goal, both recent Brøndby-hosted meetings ending 0-1 and 0-2, against a Brøndby attack missing Dennis with Frøkjær doubtful (Tipsbladet, 1 Aug 2026, fetched). Taken at 2.25 for +17.4% EV. The ladder is derived per-day by data environment rather than hardcoded, because league quality rotates with the calendar; and it explicitly ranks *research order, not eligibility*, since the pick that prompted the rule came from rung 3.
